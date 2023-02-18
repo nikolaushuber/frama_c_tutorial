@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Latex - Create PDF
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push 
+  push:
+    tags:
+      - '*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run latexmk 
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          pre_compile: "tlmgr update --self; tlmgr install biblatex; tlmgr install biber"
+          working_directory: tex_source
+          extra_system_packages: "py-pygments"
+          latexmk_shell_escape: true
+          post_compile: "latexmk -c"
+      
+      - name: Rename pdf file 
+        run: mv tex_source/main.pdf tex_source/frama_c_tutorial.pdf
+      
+      - name: Release 
+        uses: ncipollo/release-action@v1 
+        with:
+          artifacts: "tex_source/frama_c_tutorial.pdf"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
