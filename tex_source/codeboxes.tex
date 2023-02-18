@@ -1,0 +1,93 @@
+\newtcblisting{ubuntu}{
+    listing engine=listings,
+    colback=violet!50!black,
+    colupper=white,
+    colframe=gray!65!black,
+    listing only,
+    toptitle=1mm,
+    listing options={basicstyle=\normalsize\ttfamily,language=sh,escapeinside=``,},
+    title={\textcolor{orange}{\Huge{$\bullet$}}{\textcolor{gray}{\Huge{$\bullet\bullet$}}}},
+    every listing line={\MyUbuntuPrompt}}
+    \pgfkeys{/ubuntu/.cd,
+    user/.code={\gdef\MyUbuntuUser{#1}},user={},
+    host/.code={\gdef\MyUbuntuHost{#1}},host={},
+    color/.code={\gdef\MyUbuntuColor{#1}},color=white,
+    prompt char/.code={\gdef\MyUbuntuPromptChar{#1}},prompt char=\#,
+    root/.style={user=root,host=ubuntu,color=lime,prompt char=\#},
+    bob/.style={user=bob,host=remotehost,color=cyan},
+}
+
+\tcbset{textmarker/.style={%
+  skin=enhancedmiddle jigsaw,
+  breakable,
+  parbox=false, 
+  boxrule=0mm,
+  leftrule=5mm,
+  rightrule=5mm,
+  boxsep=0mm,arc=0mm,
+  outer arc=0mm, 
+  left=3mm,right=3mm,
+  top=1mm,
+  bottom=1mm,
+  toptitle=1mm,
+  bottomtitle=1mm,
+  oversize}
+}
+
+\newtcolorbox{yellow}{
+  textmarker,
+  colback=yellow!5!white,
+  colframe=yellow
+} 
+\newtcolorbox{orange}{
+  textmarker,
+  colback=DarkOrange!5!white,
+  colframe=DarkOrange!75!yellow} 
+\newtcolorbox{red}{
+  textmarker,
+  colback=red!5!white,
+  colframe=red
+}
+\newtcolorbox{blue}{
+  textmarker,
+  colback=DeepSkyBlue!5!white,
+  colframe=DeepSkyBlue
+} 
+\newtcolorbox{green}{
+  textmarker,
+  colback=Chartreuse!5!white,
+  colframe=Chartreuse
+} 
+\newtcolorbox{rainbow}{
+  textmarker,
+  interior hidden,
+  frame style={top color=blue,bottom color=red,middle color=green}
+}
+
+\newcommand{\SU}[1]{
+  \pgfkeys{/ubuntu/.cd,#1}%
+  \gdef\MyUbuntuPrompt{\textcolor{\MyUbuntuColor}{\small\ttfamily\bfseries \MyUbuntuUser@\MyUbuntuHost{\textcolor{white}:}\textcolor{cyan!60}{\url{~}}{\textcolor{white}\MyUbuntuPromptChar} }}
+}
+\newcommand{\StartConsole}{\gdef\MyUbuntuPrompt{}}
+
+\renewcommand\theFancyVerbLine{\normalsize\arabic{FancyVerbLine}}
+
+\newtcbinputlisting{\ceditor}[3][]{
+    listing engine=minted,
+    colback=white!80!gray,
+    colframe=gray!50!black,
+    minted style=perldoc,
+    minted language=c,
+    listing only,
+    left=7mm,
+    enhanced,
+    toptitle=1mm,
+    minted options={fontsize=\normalsize,breaklines,linenos,numbersep=3mm,},
+    lefttitle=4mm,
+    title={\textcolor{orange}{\Huge{$\bullet$}}{\textcolor{gray}{\Huge{$\bullet\bullet$}}} \hfill \normalsize #2},
+    overlay={\begin{tcbclipinterior}\fill[gray!90!white] (frame.south west)
+       rectangle ([xshift=7mm]frame.north west);\end{tcbclipinterior}},
+    listing file={#3},
+    breakable,
+    #1
+}

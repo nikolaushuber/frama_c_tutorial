@@ -1,0 +1,37 @@
+\chapter{Behaviors}
+
+As you have seen in the previous chapter, our contracts are becoming longer and longer. At a certain point it is easy to loose track of what we are trying to prove, especially when you hava many different possible results that we need to combine with consecutive \mintinline{c}{||} operators. 
+
+Frama-C therefore offers a nice way of dividing a contract into multiple different behaviors. Let's look at an example again. This example is taken from \cite{gerlach_acsl_2020}: 
+
+\ceditor{array\textunderscore equals.c}{code/behaviors/array_equals_simple.c}
+
+I leave the implementation of this function as an exercise. We provide the pointers to two arrays \mintinline{c}{a} and \mintinline{c}{b} and an integer \mintinline{c}{n}. If the first n elements of both arrays are equal, \textbf{array\textunderscore equals} shall return 1, otherwise 0. This leads us to the following preconditions:
+
+\ceditor{array\textunderscore equals.c}{code/behaviors/array_equals_pre.c}
+
+We only need to read from the array locations, therefore we use \textbf{\textbackslash valid\textunderscore read} instead of \textbf{\textbackslash valid} here. The assigns clause is therefore also obvious. 
+
+We can formulate our postcondition as follows:
+
+\ceditor{array\textunderscore equals.c}{code/behaviors/array_equals_post.c}
+
+There are a few noteworthy things about the code above. As you can see, we can introduce different behaviors with the \mintinline{c}{behavior <label>} construct. The label is not important, and only interesting for us, Frama-C is mostly going to ignore it. Another new keyword is \emph{assumes}, which holds the logical condition for each introduced behavior clause. We can then formulate different postconditions that are only true for the specific behavior they have been introduced in. 
+
+By default, Frama-C does not check if our different behavior clauses are complete (i.e. they cover all possible cases), or if the are disjoint (i.e. their assumes clauses do not overlap). We can ask Frama-C to check for these properties though: 
+
+\ceditor{array\textunderscore equals.c}{code/behaviors/array_equals.c}
+
+\section{Exercises}
+
+\subsection{Implementation of array\textunderscore equals}
+
+Implement the \textbf{array\textunderscore equals} function. You will have to write the loop contract inside it as well. Try using it in a main function and prove the equivalence of two example arrays. 
+
+\subsection{Mismatch function}
+
+Create a \textbf{mismatch} function with the following signature:
+
+\ceditor{mismatch.c}{exercises/behaviors/mismatch.c}
+
+The \textbf{mismatch} function shall check the two given arrays up to length n and return the first index for which they differ. If they are equal on all first n elements, the function shall return n itself. 

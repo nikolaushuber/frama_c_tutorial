@@ -1,0 +1,58 @@
+\begin{tikzpicture}[
+    mindmap, 
+    every node/.style=concept, 
+    concept color=gray!40, 
+    grow cyclic, 
+    text width=2.7cm,    
+    align=flush center,
+	level 1/.style={level distance=8cm},
+	level 2/.style={level distance=5cm, sibling angle=45},
+	level 3/.style={level distance=5cm, sibling angle=70},
+	scale=0.4,
+	font=\bfseries
+	]
+
+\node[scale=0.6]{Frama-C Plugins}
+child[clockwise from=0, concept color=blue!30] {
+    node[scale=0.6] {Formal Methods}
+        child[clockwise from=-30, level distance=6cm] {
+            node[scale=0.5] {Deductive Verification}
+                child { node[scale=0.5] {Jessie}}
+                child { node[scale=0.5] {WP}}
+        }
+        child[clockwise from=90, level distance=6cm] {
+            node[scale=0.5] {Abstract Interpretation}
+                child { node[scale=0.5] {Eva}}
+        }
+}
+child[clockwise from=70, concept color=red!30] {
+    node[scale=0.6] {Specification Generation}
+        child[level distance = 6cm, clockwise from=130] { node[scale=0.5] {Aora\"{i}} }
+        child[level distance = 6cm, clockwise from=110] { node[scale=0.5] {RTE} }
+}
+child[clockwise from=180, concept color=orange!30] {
+    node[scale=0.6] {Dynamic Analysis}
+        child { node[scale=0.45] {PathCrawler}}
+        child { node[scale=0.45] {E-ACSL}}
+        child { node[scale=0.45] {StaDy}}
+        child { node[scale=0.45] {Sante}}
+        child { node[scale=0.45] {Ltest}}
+}
+child[clockwise from=280, concept color=yellow!30] {
+    node[scale=0.6] {Code Browsing}
+        child { node[scale=0.45] {Metrics}}
+        child { node[scale=0.45] {Impact}}
+        child { node[scale=0.45] {Occurence}}
+        child { node[scale=0.45] {Scope \& Data Flow}}
+        child { node[scale=0.45] {Callgraph}}
+}
+child[level distance = 7cm, clockwise from=10, concept color=green!30] {
+    node[scale=0.6] {Code Transformation}
+        child[] { node[scale=0.45] {Slicing}}
+        child { node[scale=0.45] {Sparecode}}
+        child { node[scale=0.45] {Clang}}
+        child { node[scale=0.45] {Constant folding}}
+}
+;
+
+\end{tikzpicture}
