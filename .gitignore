@@ -1,0 +1,12 @@
+*.bbl 
+*.blg
+*.fdb_latexmk
+*.listing
+*.out
+*.log
+*.gz 
+_minted-main/ 
+*.aux
+*.fls
+*.toc
+*.pdf
