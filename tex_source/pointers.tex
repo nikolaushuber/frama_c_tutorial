@@ -58,7 +58,7 @@ Have a look at the following implementation of a decrement function:
 
 \ceditor{decr\textunderscore by.c}{exercises/pointers/decr_by.c}
 
-We provide two pointers to integers as input and the function \textbf{decr\textunderscore by} shall subtract the value the second pointer points to from the first one. Try writing a contract for this function. You will realize, that Frama-C actually fails to prove your postconditions. This is due to the possibility of aliasing. Two pointers can actually point to the same memory location. But what would happen if we did something like \mintinline{c}{int a = 5; decr_by(&a, &a)}? We have to tell Frama-C in a precondition that the two pointers are actually different, which we can do like this: \mintinline{c}{requires \separated (x, y);}. Try proving your contract again, now it should be able to prove it correct. 
+We provide two pointers to integers as input and the function \textbf{decr\textunderscore by} shall subtract the value the second pointer points to from the first one. Try writing a contract for this function. You will realize, that Frama-C actually fails to prove your postconditions. This is due to the possibility of aliasing. Two pointers can actually point to the same memory location. But what would happen if we did something like \mintinline{c}{int a = 5; decr_by(&a, &a)}? We have to tell Frama-C in a precondition that the two pointers are actually different, which we can do like this: \mintinline{c}{requires \separated (x, y);}. Try proving your function contract again, now it should be able to prove it correct. 
 
 \subsection{Adding of pointed values}
 
@@ -66,4 +66,4 @@ In this exercise we want to create a function that takes two integer pointers as
 
 \ceditor{add\textunderscore ptr.c}{exercises/pointers/add_ptr.c}
 
-Implement the function \textbf{add\textunderscore ptr} and write the required pre- and postconditions to prove the assertion in the main function! Do we need to use \textbf{\textbackslash separated} here? 
+Implement the function \textbf{add\textunderscore ptr} and write the required pre- and postconditions to prove the assertion in the main function and the automatically generated run-time exceptions within \textbf{add\textunderscore ptr}! Do we need to use \textbf{\textbackslash separated} here? 

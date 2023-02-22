@@ -1,6 +1,6 @@
 \chapter{Loops}
 
-By now we can actually already specify non-trivial programs with ACSL and have Frama-C try and prove that our implementation is according to the specification. Something we are missing so far is any form of repeated code application. We therefore take a look at loops next. We will also take a look at one of the most important datastructures in C, arrays. You will realize that we actually already know quite a bit about how to write contracts including arrays, since in C arrays are just lists of pointers! 
+By now we can actually already specify non-trivial programs with ACSL and have Frama-C try and prove that our implementation is according to the specification. Something we are missing so far is any form of repeated code application. We therefore take a look at loops next. We will also take a look at one of the most important data structures in C, arrays. You will realize that we actually already know quite a bit about how to write contracts including arrays, since in C arrays are just lists of pointers! 
 
 \section{A first example}
 
@@ -40,11 +40,11 @@ As you can see, we can annotate a loop inside a function with its own contract. 
 
 \section{Loop assignments}
 
-Similar to how Frama-C could not automatically deduct which memory locations a function can access, it can also not reason about memory assignments inside a loop. We therefore have to manually provide a list of variables and locations that can change inside our loop body. This is done through the \emph{loop assigns} clause:
+Similar to how Frama-C could not automatically deduce which memory locations a function can access, it can also not reason about memory assignments inside a loop. We therefore have to manually provide a list of variables and locations that can change inside our loop body. This is done through the \emph{loop assigns} clause:
 
 \ceditor{clear\textunderscore array.c}{code/loops/clear_array_assigns.c}
 
-This pretty much follows the same syntax as the assigns clause for function contracts. Any variable that is visible in the function but is not listed in the loop assigns clause is considered to have the same value at the beginning and at the end of the loop execution. Lets see how Frama-C is doing with our new contract:
+This pretty much follows the same syntax as the assigns clause for function contracts. Any variable, that is visible in the function but is not listed in the loop assigns clause, is considered to have the same value at the beginning and at the end of the loop execution. Lets see how Frama-C is doing with our new contract:
 
 \begin{center}
     \includegraphics[width=0.6\textwidth]{images/frama_c_clear_array_assigns.png}
@@ -54,7 +54,7 @@ Fairly well! It could prove our postcondition and also verify that we do not cha
 
 \ceditor{clear\textunderscore array.c}{code/loops/clear_array_main.c}
 
-If we ask Frama-C to verify the above code, it will happily do so. However, we have actually not fully specified the intended behaviour of our function yet. 
+If we ask Frama-C to verify the above code, it will happily do so. However, we have actually not fully specified the intended behavior of our function yet. 
 
 \section{Loop variants}
 
@@ -80,4 +80,4 @@ Implement and specify the \textbf{find\textunderscore min} function, which takes
 
 \ceditor{find\textunderscore min.c}{exercises/loops/find_min.c}
 
-Depending on how you implement the function you might run into the problem that Frama-C is unable to prove part of your postcondition correct. This is most likely due to the fact that in your postcondition you made a statement regarding the index of the smallest element in the array. In a concise C implementation you do not have to actually save that index though. However, that means that Frama-C will have trouble using it in the deduction procedure. You have multiple options of how to mitigate that problem. You can either use a local variable that actually records the (current) position of the minimum element, or you can make use of a \textbf{ghost variable}. Ghost variables are variables that we need for the proof procedure, which are however not useful for the actual implementation of the algorithm. They have the advantage of not showing up in the final code and therefore saving space. You can read more on ghost variables in the ACSL manual \cite{baudin_acsl_nodate} in section 2.12. 
+Depending on how you implement the function and formulate the contract you might run into the problem that Frama-C is unable to prove parts of your postcondition correct. This happens with this task in particular if your postcondition makes a statement regarding the index of the smallest element in the array, while the implemenation does not record this information. This mismatch between the implementation and contract gives Frama-C difficulties when applying the deduction procedure. You have multiple options of how to mitigate the problem. You can avoid statements about the index of the smallest element in your contract. If you would like to use the index of the smallest element in the postcondition, then you can either modify the implementation by using a local variable that actually records the (current) position of the minimum element, or you can make use of a \textbf{ghost variable}. Ghost variables are variables that we need for the proof procedure, which are however not useful for the actual implementation of the algorithm. They have the advantage of not showing up in the final code and therefore saving space. You can read more on ghost variables in the ACSL manual \cite{baudin_acsl_nodate} in section 2.12. 

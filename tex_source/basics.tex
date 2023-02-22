@@ -6,7 +6,7 @@ Let's start with an easy example. Assume we want to define a function which can 
 
 \ceditor{add.c}{code/basics/add_simple.c}
 
-If we want to prove, that this function is correct, we can define a \emph{function contract}, which specifies the behaviour we expect:
+If we want to prove, that this function is correct, we can define a \emph{function contract}, which specifies the behavior we expect:
 
 \ceditor{add.c}{code/basics/add_c1.c}
 
@@ -47,7 +47,7 @@ In our case we can state the following:
 
 \ceditor{add.c}{code/basics/add_pre.c}
 
-Precoditions are introduced by the \emph{requires} keywoard. As you can see, ACSL allows for a nicer syntax when it comes to defining conditionals, as we can define the lower and upper limit of $x+y$ in one formula instead of two (i.e. \mintinline[breaklines]{c}{INT_MIN <= (x + y) && (x + y) <= INT_MAX}). 
+Precoditions are introduced by the \emph{requires} keywoard. As you can see, ACSL allows for a nicer syntax when it comes to defining conditionals, as we can define the lower and upper limit of $x+y$ in one formula instead of two (i.e. \mintinline[breaklines]{c}{INT_MIN <= (x + y) && (x + y) <= INT_MAX}). The makros \mintinline[breaklines]{c}{INT_MIN} and \mintinline[breaklines]{c}{INT_MAX} can be provided using the \mintinline[breaklines]{c}{limits} library.
 
 You cannot edit your code in Frama-C directly, so you have to do your changes in a separate editor and then reparse the file. You can also just close the current Frama-C window, change the source code and then open it again. We can tell Frama-C to immediately insert the RTE guards and perform the contract analysis:
 
@@ -59,7 +59,7 @@ If we check the status of our function annotations, all of them should be green 
 
 \section{Partial vs complete specification}
 
-At this point we might assume that we were successful in specifying the behaviour and proving the correctness of our implementation of the \textbf{add} function. Unfortunately we are not finished yet. To see that, let us observe what happens if we actually try and call our \textbf{add} function from another function:
+At this point we might assume that we were successful in specifying the behavior and proving the correctness of our implementation of the \textbf{add} function. Unfortunately we are not finished yet. To see that, let us observe what happens if we actually try and call our \textbf{add} function from another function:
 
 \ceditor{add.c}{code/basics/add_main.c}
 
@@ -87,7 +87,7 @@ ACSL provides the special value \textbf{\textbackslash nothing} to express that 
     \includegraphics[width=0.5\textwidth]{images/frama_c_add_all_green.png}
 \end{center}
 
-This illustrates an important fact about using contracts for function specification. It is sometimes very difficult to find a complete specification (that is one that covers every aspect of the behaviour we are expecting). Sometimes, if for example we know all the calling contexts of the function we are trying to specify, it is enough to just use a partial specification. If a certain contract actually fully specifies an implementation is outside of the scope of what ACSL can do, for that we have to evaluate against a more abstract model of our software system.
+This illustrates an important fact about using contracts for function specification. It is sometimes very difficult to find a complete specification (that is one that covers every aspect of the behavior we are expecting). Sometimes, if for example we know all the calling contexts of the function we are trying to specify, it is enough to just use a partial specification. If a certain contract actually fully specifies an implementation is outside of the scope of what ACSL can do, for that we have to evaluate against a more abstract model of our software system.
 
 So far we have only dealt with contracts that had one pre- and one postcondition. We can however specify arbitrarily many by either having multiple requires/ensures clauses, or using the logical operators \mintinline{c}{&&} and \mintinline{c}{||} respectively. We will make use of that in the next chapter, and you might need it in the exercises. 
 
@@ -99,7 +99,7 @@ Implement the \textbf{abs} function, which shall return the absolute value of th
 
 \ceditor{abs.c}{exercises/basics/abs.c}
 
-Write the necessary specification for the \textbf{abs} function and prove its correctness. For specifying the postcondition, you may want to use the \mintinline{c}{==>} (implies) operator. For further details consult \cite{baudin_acsl_nodate}. 
+Write the necessary specification for the \textbf{abs} function and prove its correctness. Prove the assertions in main and the automatically generated run-time exceptions within the \textbf{abs} function. For specifying the postcondition, you may want to use the \mintinline{c}{==>} (implies) operator. For further details consult \cite{baudin_acsl_nodate}. 
 
 \subsection{Max function}
 
